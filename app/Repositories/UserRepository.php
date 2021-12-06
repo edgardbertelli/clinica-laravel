@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Repositores;
+namespace App\Repositories;
 
 use App\Contracts\UserRepositoryInterface;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
-use League\CommonMark\Extension\CommonMark\Parser\Block\ThematicBreakStartParser;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserRepository implements UserRepositoryInterface
@@ -21,6 +20,10 @@ class UserRepository implements UserRepositoryInterface
 
     public function index(Request $request)
     {
+        if (is_null($request->select)) {
+            $request->select = '*';
+        }
+
         return $this->users->all([$request->select]);
     }
 
